@@ -79,10 +79,8 @@ static int		ft_fit_check(t_tetrim *tetr, char *map, int size, int i)
 static int		ft_fillit(char *map, t_tetrim *tetr, int size)
 {
 	int	i;
-	int	y;
 
 	i = 0;
-	y = 0;
 	if (!tetr)
 		return (1);
 	while (map[i])
