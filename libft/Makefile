@@ -78,13 +78,13 @@ SRCS = 	ft_atoi.c \
 
 OBIECT = *.o
 
-HEADER = libft.h
+HEADER = ./
 
 FLAGS = -Wall -Wextra -Werror -c 
 
 all: $(NAME)
 $(NAME): 
-		gcc $(FLAGS) $(SRCS) -I. $(HEADER) 
+		gcc $(FLAGS) $(SRCS) -I $(HEADER) 
 		ar rc $(NAME) $(OBIECT)
 		ranlib $(NAME)
 
