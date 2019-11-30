@@ -93,35 +93,110 @@ static int	ft_get_tetrim(t_tetrim **tetr, char *buf)
 
 	height = 0;
 	figure = ft_trim(buf, &height);
+	if (!figure)
+		return (0);
 	if (!ft_check_neighbors(figure, height, 0))
 		return (0);
 	ft_tetrim_push_back(tetr, figure, height);
 	return (1);
 }
 
-t_tetrim	*ft_create_tetrim(int fd)
+char	*get_tetr(int i)
 {
-	char		buf[22];
-	int			ret;
-	int			amount;
-	t_tetrim	*tetr;
-	int			flag;
+	char	*t[] = {".#..\n###.\n....\n....\n\n",\
+	 "..#.\n.###\n....\n....\n\n",\
+	  "....\n.#..\n###.\n....\n\n",\
+	   "....\n..#.\n.###\n....\n\n",\
+	    "....\n....\n.#..\n###.\n\n",\
+		"....\n....\n..#.\n.###\n\n"};
 
-	flag = 1;
-	amount = 0;
-	tetr = NULL;
-	while ((ret = read(fd, buf, 21)) >= 20)
-	{
-		if (ret == 20)
-			flag = 1;
-		else if (ret == 21)
-			flag = 0;
-		buf[ret] = '\0';
-		if (!(ft_validate(buf, ret)) || !ft_get_tetrim(&tetr, buf))
-			return (NULL);
-		amount++;
-	}
-	if (flag == 0 || ret != 0 || amount > 26 || amount < 1)
-		return (NULL);
-	return (tetr);
+	return (t[i]);
 }
+
+char	*get_last_tetr(int i)
+{
+	char	*t[] = {"##..\n.##.\n....\n....\n",\
+	 ".##.\n..##\n....\n....\n",\
+	  "....\n##..\n.##.\n....\n",\
+	   "....\n.##.\n..##\n....\n",\
+	    "....\n....\n##..\n.##.\n",\
+		"....\n....\n.##.\n..##\n"};
+
+	return (t[i]);
+}
+
+void	tetr_del(t_tetrim **alst)
+{
+	t_tetrim *head;
+	t_tetrim *strsave;
+	char	*figure;
+	int	y;
+
+	head = *alst;
+	while (head)
+	{
+		// printf("1\n");
+		strsave = head->next;
+		y = 0;
+		while (y < head->height)
+		{
+			// printf("2\n");
+			figure = head->figure[y];
+			// printf("figure do etogo: %s\n", figure);
+			free(figure);
+			y++;
+		}
+		head = strsave;
+	}
+	*alst = NULL;
+}
+
+int	ft_create_tetrim(void)
+{
+	t_tetrim	*tetr;
+	char		*t1;
+	char		*t2;
+	char		*t3;
+	char		*t4;
+	char	*str = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
+	
+	printf("DLINA     %ld\n\n\n", strlen(str));
+	tetr = NULL;
+	for (int t = 0; t < 3; t++)
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			t1 = get_tetr(i);
+			for (int j = 0; j < 6; j++)
+			{
+				t2 = get_tetr(i);
+				for (int k = 0; k < 6; k++)
+				{
+					t3 = get_tetr(i);
+					for (int l = 0; l < 6; l++)
+					{
+						t4 = get_last_tetr(i);
+						if (!(ft_validate(t1, strlen(t1))) || !ft_get_tetrim(&tetr, t1))
+							printf("t1 is invalid\n");
+						if (!(ft_validate(t2, strlen(t2))) || !ft_get_tetrim(&tetr, t2))
+							printf("t2 is invalid\n");
+						if (!(ft_validate(t3, strlen(t3))) || !ft_get_tetrim(&tetr, t3))
+							printf("t3 is invalid\n");
+						if (!(ft_validate(t4, strlen(t4))) || !ft_get_tetrim(&tetr, t4))
+							printf("t4 is invalid\n%s\n", t4);
+						ft_solve(tetr);
+						tetr_del(&tetr);
+						tetr = NULL;
+						if (t == 2)
+						{
+							printf("\ni = 5 \n");
+							return (1);
+						}
+					}
+				}
+			}
+		}
+	}
+	return (1);
+}
+

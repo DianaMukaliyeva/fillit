@@ -15,6 +15,8 @@
 # include "libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 
 typedef	struct		s_tetr
 {
@@ -37,7 +39,7 @@ void				ft_solve(t_tetrim *tetr);
 size_t				ft_tetrim_size(t_tetrim *list);
 t_tetrim			*ft_create_elem(char **data, char letter, int height);
 int					ft_map_size(int n);
-t_tetrim			*ft_create_tetrim(int fd);
+int			ft_create_tetrim(void);
 void				ft_map_zeroup(char *map, char a, char b);
 
 #endif

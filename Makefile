@@ -22,14 +22,16 @@ OBJ = $(SRC:.c=.o)
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -I
+FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME):
 		make -C libft/ 
-		$(CC) $(FLAGS) libft/ -c $(SRC)
-		$(CC) -o $(NAME) $(OBJ) $(FLAGS) libft/ -L libft/ -lft
+		$(CC) $(FLAGS)  -I libft/ -c $(SRC)
+		$(CC) -o $(NAME) $(OBJ) $(FLAGS) -fsanitize=address   -I libft/ -L libft/ -lft
+		make clean -C libft
+		rm -f $(OBJ)
 
 clean: 
 	make clean -C libft

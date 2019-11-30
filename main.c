@@ -12,11 +12,11 @@
 
 #include "fillit.h"
 
-static int	error_input(void)
-{
-	write(1, "usage: fillit input_file\n", 25);
-	return (1);
-}
+// static int	error_input(void)
+// {
+// 	write(1, "usage: fillit input_file\n", 25);
+// 	return (1);
+// }
 
 static int	error(void)
 {
@@ -26,14 +26,14 @@ static int	error(void)
 
 int			main(int argc, char **argv)
 {
-	t_tetrim	*tetr;
-	int			fd;
+	// int			fd;
 
-	if (argc != 2)
-		return (error_input());
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1 || !(tetr = ft_create_tetrim(fd)))
+	// if (argc != 2)
+	// 	return (error_input());
+	// fd = open(argv[1], O_RDONLY);
+	// if (fd == -1 || !(tetr = ft_create_tetrim(fd)))
+	// ft_solve(tetr);
+	if (argc == 1 && argv[0] && !ft_create_tetrim())
 		return (error());
-	ft_solve(tetr);
 	return (0);
 }

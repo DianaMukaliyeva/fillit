@@ -100,6 +100,7 @@ static int		ft_fillit(char *map, t_tetrim *tetr, int size)
 
 void			ft_solve(t_tetrim *tetr)
 {
+	// char	*requre_map = ".A...\nAAAB.\n..BBB\n.CDD.\nCCCDD\n";
 	int		size;
 	char	*map;
 
@@ -112,5 +113,12 @@ void			ft_solve(t_tetrim *tetr)
 		map = ft_create_map(map, size);
 	}
 	if (map)
-		ft_putstr(map);
+	{
+		if (map[27] == 'D')
+			printf("1");
+		// if (strcmp(map, requre_map) == 0)
+		// 	printf("1");
+		else
+			printf("ERROR:%s\n", map);
+	}
 }
