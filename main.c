@@ -24,6 +24,28 @@ static int	error(void)
 	return (2);
 }
 
+void	tetr_del(t_tetrim **alst)
+{
+	t_tetrim *head;
+	t_tetrim *strsave;
+	char	**figure;
+	int	height;
+
+	head = *alst;
+	while (head)
+	{
+		figure = head->figure;
+		height = head->height;
+		strsave = head->next;
+		free(head);
+		head = strsave;
+		while (--height >= 0)
+			free(figure[height]);
+		free(figure);
+	}
+	*alst = NULL;
+}
+
 int			main(int argc, char **argv)
 {
 	t_tetrim	*tetr;
@@ -35,5 +57,6 @@ int			main(int argc, char **argv)
 	if (fd == -1 || !(tetr = ft_create_tetrim(fd)))
 		return (error());
 	ft_solve(tetr);
+	tetr_del(&tetr);
 	return (0);
 }

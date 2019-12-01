@@ -18,6 +18,8 @@ static t_point	*ft_coord_min_max(char *buf)
 	t_point	*points;
 
 	points = malloc(sizeof(t_point));
+	if (!points)
+		return (NULL);
 	points->x_min = 3;
 	points->x_max = 0;
 	points->y_min = 3;
@@ -47,18 +49,20 @@ char			**ft_trim(char *buf, int *height)
 	int		i;
 
 	points = ft_coord_min_max(buf);
-	new = (char **)malloc(sizeof(char*) * (points->y_max - points->y_min) + 1);
-	if (!new)
+	new = (char **)malloc(sizeof(char*) * (points->y_max - points->y_min + 1));
+	if (!new || !points)
 		return (0);
 	i = 0;
 	while (points->y_max >= points->y_min)
 	{
-		new[i] = ft_strsub(buf, (points->y_min * 5 + points->x_min),\
-								points->x_max - points->x_min + 1);
+		if (points->x_max - points->x_min + 1 > 0)
+			new[i] = ft_strsub(buf, (points->y_min * 5 + points->x_min), points->x_max - points->x_min + 1);
+		if (!new[i])
+			return (0);
 		i++;
 		points->y_min++;
 	}
 	*height = i;
-	ft_memdel((void**)&points);
+	free(points);
 	return (new);
 }

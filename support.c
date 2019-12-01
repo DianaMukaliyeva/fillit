@@ -23,7 +23,7 @@ t_tetrim	*ft_create_elem(char **data, char letter, int height)
 		list->letter = letter;
 		list->height = height;
 		list->next = NULL;
-	}
+	}	
 	return (list);
 }
 
