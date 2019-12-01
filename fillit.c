@@ -15,12 +15,14 @@
 static char		*ft_create_map(char *map, int size)
 {
 	int		i;
+	int		len;
 
+	len = (size + 1) * size + 1;
 	ft_strdel(&map);
-	map = ft_strnew((size + 1) * size + 1);
-	map = ft_memset(map, '.', (size + 1) * size);
+	map = ft_strnew(len);
+	map = ft_memset(map, '.', len - 1);
 	i = size;
-	while (map[i])
+	while (i < len)
 	{
 		map[i] = '\n';
 		i = i + size + 1;
@@ -54,11 +56,13 @@ static int		ft_fit_check(t_tetrim *tetr, char *map, int size, int i)
 	int		x;
 	int		y;
 	char	**figure;
+	int		len;
 
 	y = -1;
 	x = 0;
+	len = ft_strlen(map);
 	figure = tetr->figure;
-	while (++y < tetr->height && map[i])
+	while (++y < tetr->height && i < len)
 	{
 		x = 0;
 		if (y == 0 && figure[y][x] == '.')
@@ -113,4 +117,5 @@ void			ft_solve(t_tetrim *tetr)
 	}
 	if (map)
 		ft_putstr(map);
+	free(map);
 }

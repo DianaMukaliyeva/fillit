@@ -47,7 +47,7 @@ char			**ft_trim(char *buf, int *height)
 	int		i;
 
 	points = ft_coord_min_max(buf);
-	new = (char **)malloc(sizeof(char*) * (points->y_max - points->y_min) + 1);
+	new = (char **)malloc(sizeof(char*) * (points->y_max - points->y_min + 1));
 	if (!new)
 		return (0);
 	i = 0;

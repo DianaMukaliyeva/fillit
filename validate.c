@@ -33,19 +33,21 @@ static int	ft_check_neighbors(char **str, int height, int amount)
 {
 	int i;
 	int j;
+	int	len;
 
 	i = -1;
 	j = 0;
 	while (++i < height)
 	{
+		len = ft_strlen(str[i]);
 		j = -1;
 		while (str[i][++j])
 		{
 			if (str[i][j] == '#')
 			{
-				if (str[i][j - 1] && (str[i][j - 1] == '#'))
+				if (j - 1 >= 0 && (str[i][j - 1] == '#'))
 					amount++;
-				if (str[i][j + 1] && (str[i][j + 1] == '#'))
+				if (j + 1 < len && (str[i][j + 1] == '#'))
 					amount++;
 				if (i + 1 < height && (str[i + 1][j] == '#'))
 					amount++;
