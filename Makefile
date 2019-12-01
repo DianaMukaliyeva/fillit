@@ -29,7 +29,7 @@ all: $(NAME)
 $(NAME):
 		make -C libft/ 
 		$(CC) $(FLAGS)  -I libft/ -c $(SRC)
-		$(CC) -o $(NAME) $(OBJ) $(FLAGS) -fsanitize=address   -I libft/ -L libft/ -lft
+		$(CC) -o $(NAME) $(OBJ) $(FLAGS) -I libft/ -L libft/ -lft
 		make clean -C libft
 		rm -f $(OBJ)
 

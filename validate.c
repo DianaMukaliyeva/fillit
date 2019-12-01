@@ -28,24 +28,25 @@ static void	ft_tetrim_push_back(t_tetrim **begin_list, char **data, int height)
 	else
 		*begin_list = ft_create_elem(data, 'A', height);
 }
-
 static int	ft_check_neighbors(char **str, int height, int amount)
 {
 	int i;
 	int j;
+	int	len;
 
 	i = -1;
 	j = 0;
 	while (++i < height)
 	{
+		len = ft_strlen(str[i]);
 		j = -1;
-		while (str[i][++j])
+		while (++j < len)
 		{
 			if (str[i][j] == '#')
 			{
-				if (str[i][j - 1] && (str[i][j - 1] == '#'))
+				if (j - 1 >= 0 && (str[i][j - 1] == '#'))
 					amount++;
-				if (str[i][j + 1] && (str[i][j + 1] == '#'))
+				if (j + 1 < len && (str[i][j + 1] == '#'))
 					amount++;
 				if (i + 1 < height && (str[i + 1][j] == '#'))
 					amount++;
@@ -129,24 +130,20 @@ void	tetr_del(t_tetrim **alst)
 {
 	t_tetrim *head;
 	t_tetrim *strsave;
-	char	*figure;
-	int	y;
+	char	**figure;
+	int	height;
 
 	head = *alst;
 	while (head)
 	{
-		// printf("1\n");
+		figure = head->figure;
+		height = head->height;
 		strsave = head->next;
-		y = 0;
-		while (y < head->height)
-		{
-			// printf("2\n");
-			figure = head->figure[y];
-			// printf("figure do etogo: %s\n", figure);
-			free(figure);
-			y++;
-		}
+		free(head);
 		head = strsave;
+		while (--height >= 0)
+			free(figure[height]);
+		free(figure);
 	}
 	*alst = NULL;
 }
@@ -158,11 +155,9 @@ int	ft_create_tetrim(void)
 	char		*t2;
 	char		*t3;
 	char		*t4;
-	char	*str = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 	
-	printf("DLINA     %ld\n\n\n", strlen(str));
 	tetr = NULL;
-	for (int t = 0; t < 3; t++)
+	for (int t = 0; t < 1000; t++)
 	{
 		for (int i = 0; i < 6; i++)
 		{
@@ -187,11 +182,6 @@ int	ft_create_tetrim(void)
 						ft_solve(tetr);
 						tetr_del(&tetr);
 						tetr = NULL;
-						if (t == 2)
-						{
-							printf("\ni = 5 \n");
-							return (1);
-						}
 					}
 				}
 			}

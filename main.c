@@ -35,5 +35,6 @@ int			main(int argc, char **argv)
 	// ft_solve(tetr);
 	if (argc == 1 && argv[0] && !ft_create_tetrim())
 		return (error());
+	printf("\nEND\n");
 	return (0);
 }

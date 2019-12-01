@@ -15,12 +15,14 @@
 static char		*ft_create_map(char *map, int size)
 {
 	int		i;
+	int		len;
 
+	len = (size + 1) * size + 1;
 	ft_strdel(&map);
-	map = ft_strnew((size + 1) * size + 1);
+	map = ft_strnew(len);
 	map = ft_memset(map, '.', (size + 1) * size);
 	i = size;
-	while (map[i])
+	while (i < len)
 	{
 		map[i] = '\n';
 		i = i + size + 1;
@@ -54,17 +56,19 @@ static int		ft_fit_check(t_tetrim *tetr, char *map, int size, int i)
 	int		x;
 	int		y;
 	char	**figure;
+	int	len;
 
+	len = ft_strlen(map);
 	y = -1;
 	x = 0;
 	figure = tetr->figure;
-	while (++y < tetr->height && map[i])
+	while (++y < tetr->height && i < len)
 	{
 		x = 0;
 		if (y == 0 && figure[y][x] == '.')
 			while (figure[y][x] == '.')
 				x++;
-		while (figure[y][x] && map[i])
+		while (figure[y][x] && i < len)
 		{
 			if (ft_check(figure[y][x], tetr, map, &i))
 				x++;
@@ -100,7 +104,7 @@ static int		ft_fillit(char *map, t_tetrim *tetr, int size)
 
 void			ft_solve(t_tetrim *tetr)
 {
-	// char	*requre_map = ".A...\nAAAB.\n..BBB\n.CDD.\nCCCDD\n";
+	char	*requre_map = ".A...\nAAAB.\n..BBB\n.CDD.\nCCCDD\n";
 	int		size;
 	char	*map;
 
@@ -113,12 +117,7 @@ void			ft_solve(t_tetrim *tetr)
 		map = ft_create_map(map, size);
 	}
 	if (map)
-	{
-		if (map[27] == 'D')
-			printf("1");
-		// if (strcmp(map, requre_map) == 0)
-		// 	printf("1");
-		else
+		if (strcmp(map, requre_map) != 0)
 			printf("ERROR:%s\n", map);
-	}
+	free(map);
 }
